@@ -3,8 +3,8 @@ package com.paypal.bfs.test.employe.exception;
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.BadRequestException;
 
-import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
