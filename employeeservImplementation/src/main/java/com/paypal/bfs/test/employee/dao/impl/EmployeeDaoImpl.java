@@ -4,15 +4,18 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.BadRequestException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import com.paypal.bfs.test.employee.constants.GenericConstants;
+import com.paypal.bfs.test.employee.model.EmployeeCreationStatus;
 import com.paypal.bfs.test.employee.repository.EmployeeRepository;
 import com.paypal.bfs.test.employeeserv.api.model.Employee;
 
@@ -36,10 +39,14 @@ public class EmployeeDaoImpl {
 		return parser.format(dateOfBirth);
 	}
 
-	public Employee saveEmployee(Employee employee) {
+	public Employee saveEmployee(Employee employee, EmployeeCreationStatus status) {
 		
-		com.paypal.bfs.test.employee.model.Employee emp = new com.paypal.bfs.test.employee.model.Employee();
-		
+		List<com.paypal.bfs.test.employee.model.Employee> result = employeeRepository.findByFirstName(employee);
+		if(!result.isEmpty()) {
+			status.setCreationStatus(false);
+			return populateEmployeeData(result.get(0));
+		}
+		com.paypal.bfs.test.employee.model.Employee emp = new com.paypal.bfs.test.employee.model.Employee();		
         emp.setFirstName(employee.getFirstName());
         emp.setLastName(employee.getLastName());        
         emp.setDateOfBirth(validateDOB(employee.getDateOfBirth()));

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paypal.bfs.test.employee.dao.impl.EmployeeDaoImpl;
+import com.paypal.bfs.test.employee.model.EmployeeCreationStatus;
 import com.paypal.bfs.test.employeeserv.api.EmployeeResource;
 import com.paypal.bfs.test.employeeserv.api.model.Employee;
 
@@ -36,8 +37,13 @@ public class EmployeeResourceImpl implements EmployeeResource {
 	public ResponseEntity<Employee> createEmployee(Employee employee) {
 		
 		log.info("Create request received : "+employee.toString());
-		Employee emp = employeeDaoImpl.saveEmployee(employee);
-		return new ResponseEntity<>(emp, HttpStatus.CREATED);
+		EmployeeCreationStatus status = new EmployeeCreationStatus();
+		status.setCreationStatus(true);
+		Employee emp = employeeDaoImpl.saveEmployee(employee,status);
+		if(status.isCreationStatus())
+			return new ResponseEntity<>(emp, HttpStatus.CREATED);
+		else
+			return new ResponseEntity<>(emp, HttpStatus.OK);
 		
 	}
 	

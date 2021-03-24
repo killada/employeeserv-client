@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.paypal.bfs.test.employee.model.EmployeeCreationStatus;
 import com.paypal.bfs.test.employee.repository.EmployeeRepository;
 import com.paypal.bfs.test.employee.utils.Utility;
 import com.paypal.bfs.test.employeeserv.api.model.Employee;
@@ -47,7 +48,7 @@ public class EmployeeDaoImplTest {
 	public void saveEmployeeTest() {
 		 
 		 Mockito.when(employeeRepository.save(Mockito.any(com.paypal.bfs.test.employee.model.Employee.class))).thenReturn(utility.populateEmployeeEntity());
-		 Employee emp =employeeDaoImpl.saveEmployee(utility.populateEmployee());
+		 Employee emp =employeeDaoImpl.saveEmployee(utility.populateEmployee(), new EmployeeCreationStatus());
 		 Assert.assertNotNull(emp);
 		
 	}

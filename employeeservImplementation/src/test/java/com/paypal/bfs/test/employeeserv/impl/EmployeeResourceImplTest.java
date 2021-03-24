@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.paypal.bfs.test.employee.dao.impl.EmployeeDaoImpl;
+import com.paypal.bfs.test.employee.model.EmployeeCreationStatus;
 import com.paypal.bfs.test.employee.utils.Utility;
 import com.paypal.bfs.test.employeeserv.api.model.Employee;
 
@@ -62,7 +63,7 @@ public class EmployeeResourceImplTest {
 	@Test
 	public void postControllerCreateEmployeeTest() throws Exception {
 		String employeeRequest = "{\"first_name\":\"Kevin\",\"last_name\":\"Pearson\",\"date_of_birth\":\"2020-10-15\",\"line1\":\"MIG-B\",\"city\":\"Hyd\",\"state\":\"Telengna\",\"country\":\"India\",\"zip_code\":\"530051\"}";
-		Mockito.when(employeeDaoImpl.saveEmployee(Mockito.any(Employee.class))).thenReturn(utility.populateEmployee());
+		Mockito.when(employeeDaoImpl.saveEmployee(Mockito.any(Employee.class), Mockito.any(EmployeeCreationStatus.class))).thenReturn(utility.populateEmployee());
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/bfs/createEmployee").accept(MediaType.APPLICATION_JSON).content(employeeRequest).contentType(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		Assert.assertEquals(201, result.getResponse().getStatus());
